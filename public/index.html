@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plataforma de Checkout - MVP Arquitetura de Software</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- CABEÇALHO -->
+  <header class="header">
+    <div class="brand">
+      <div class="brand-icon">⚡</div>
+      <div class="brand-text">
+        <h1>PayFlow MVP</h1>
+        <p>Plataforma de Processamento de Pedidos & Checkout Financeiro</p>
+      </div>
+    </div>
+    <div class="badge-group">
+      <span class="badge badge-layered">🏛️ Clean Layers</span>
+      <span class="badge badge-strategy">🎯 Strategy Pattern</span>
+      <span class="badge badge-factory">🏭 Factory Method</span>
+      <span class="badge badge-observer">📡 Observer Pattern</span>
+    </div>
+  </header>
+
+  <!-- GRID PRINCIPAL DO DASHBOARD -->
+  <main class="dashboard-grid">
+
+    <!-- COLUNA DA ESQUERDA: FORMULÁRIO DE SIMULAÇÃO DE CHECKOUT -->
+    <section>
+      <div class="card">
+        <h2 class="card-title">🛍️ 1. Selecione os Produtos</h2>
+        <div class="products-selector" id="productsContainer">
+          <!-- Renderizado via JavaScript -->
+        </div>
+
+        <h2 class="card-title">👤 2. Dados do Cliente</h2>
+        <div class="form-group">
+          <label for="customerName">Nome Completo</label>
+          <input type="text" id="customerName" class="form-control" value="Josué Silva">
+        </div>
+        <div class="form-group">
+          <label for="customerEmail">E-mail para Notificações</label>
+          <input type="email" id="customerEmail" class="form-control" value="josue@exemplo.com">
+        </div>
+
+        <h2 class="card-title">💳 3. Escolha a Estratégia de Pagamento</h2>
+        <div class="payment-methods">
+          <div class="method-btn active" data-method="PIX" id="methodPix">
+            <span class="icon">⚡</span>
+            <span>PIX (-10%)</span>
+          </div>
+          <div class="method-btn" data-method="CREDIT_CARD" id="methodCC">
+            <span class="icon">💳</span>
+            <span>Cartão</span>
+          </div>
+          <div class="method-btn" data-method="BOLETO" id="methodBoleto">
+            <span class="icon">📄</span>
+            <span>Boleto (+R$2.50)</span>
+          </div>
+        </div>
+
+        <!-- Opções Específicas do Cartão -->
+        <div id="ccOptions" style="display: none;" class="form-group">
+          <label for="installments">Número de Parcelas (Strategy Rule)</label>
+          <select id="installments" class="form-control">
+            <option value="1">1x à vista (sem juros)</option>
+            <option value="3">3x com juros de 1.5% a.m.</option>
+            <option value="6">6x com juros de 1.5% a.m.</option>
+            <option value="12">12x com juros de 1.5% a.m.</option>
+          </select>
+
+          <label style="margin-top: 10px;" for="cardNumber">Número do Cartão (Simulação de recusa: final 0000)</label>
+          <input type="text" id="cardNumber" class="form-control" value="4532 1111 2222 8888">
+        </div>
+
+        <button class="btn-checkout" id="btnProcessCheckout">
+          🚀 PROCESSAR CHECKOUT AGORA
+        </button>
+      </div>
+    </section>
+
+    <!-- COLUNA DA DIREITA: RESULTADO DA OPERAÇÃO E EVENTOS OBSERVER -->
+    <section>
+
+      <!-- RESULTADO DO CHECKOUT -->
+      <div class="card" id="resultCard" style="display: none;">
+        <h2 class="card-title">✅ Processamento de Pagamento</h2>
+        <div id="resultContent"></div>
+      </div>
+
+      <!-- PAINEL DOS 3 DESIGN PATTERNS EM AÇÃO -->
+      <div class="card">
+        <h2 class="card-title">🧩 Design Patterns em Execução</h2>
+        <div class="patterns-flow">
+          <div class="pattern-card">
+            <h4 style="color: var(--accent-emerald);">1. Strategy Pattern</h4>
+            <p id="activeStrategy">PixPaymentStrategy (Desconto 10%)</p>
+          </div>
+          <div class="pattern-card">
+            <h4 style="color: var(--accent-purple);">2. Factory Method</h4>
+            <p id="activeFactory">NotificationFactory -> Email + Push</p>
+          </div>
+          <div class="pattern-card">
+            <h4 style="color: var(--accent-amber);">3. Observer Pattern</h4>
+            <p id="activeObservers">3 Observers Reativos Acionados</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TERMINAL DE EVENTOS E AUDITORIA DE LOGS -->
+      <div class="card">
+        <h2 class="card-title">📡 Terminal de Logs & Auditoria (Observer Pattern)</h2>
+        <div class="terminal" id="terminalLogs">
+          <div class="log-entry">
+            <span class="log-time">[SISTEMA]</span>
+            <span class="log-type">PRONTO</span>
+            <span>Aguardando a execução do primeiro checkout para emitir eventos...</span>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
