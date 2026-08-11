@@ -3,26 +3,32 @@
 O Diagrama de Contexto descreve as fronteiras do sistema **PayFlow MVP**, seus atores (usuários/clientes) e os sistemas externos simulados com os quais se relaciona.
 
 ```mermaid
-C4Context
-    title Diagrama de Contexto do Sistema - PayFlow MVP (Checkout Financeiro)
+flowchart TD
+    classDef person fill:#084298,stroke:#052c65,color:#ffffff,stroke-width:2px;
+    classDef system fill:#0d6efd,stroke:#0a58ca,color:#ffffff,stroke-width:2px;
+    classDef external fill:#495057,stroke:#343a40,color:#ffffff,stroke-width:2px;
 
-    Person(customer, "Cliente / Comprador", "Usuário final realizando compras e efetuando pagamento online.")
-    Person(admin, "Administrador de Vendas", "Profissional que monitora pedidos, logs de auditoria e métricas.")
+    subgraph Atores [" Atores do Sistema "]
+        customer["👤 Cliente / Comprador<br/><i>(Usuário final realizando compras e checkout)</i>"]:::person
+        admin["👤 Administrador de Vendas<br/><i>(Monitoramento de pedidos e logs)</i>"]:::person
+    end
 
-    System(payflow, "PayFlow MVP System", "Plataforma de Processamento de Pedidos e Checkout Financeiro desenvolvida em Arquitetura em Camadas.")
+    payflow["⚡ PayFlow MVP System<br/><b>Plataforma de Processamento de Pedidos & Checkout</b><br/><i>(Node.js / TypeScript - Layered Architecture)</i>"]:::system
 
-    System_Ext(pix_net, "Rede Banco Central / Pix", "Sistema de liquidação e geração de QR Codes Pix.")
-    System_Ext(cc_acquirer, "Credenciadora de Cartões", "Processadora externa para autorização e parcelamento de cartão.")
-    System_Ext(bank_boleto, "Sistema de Compensação Bancária", "Emissor e validador de códigos de barras para boletos.")
-    System_Ext(notif_gateways, "Gateways de Notificação (SMTP/SMS/Push)", "Provedores externos para envio de e-mails, SMS e notificações push.")
+    subgraph ExternalSystems [" Sistemas Externos (Mocked Infra) "]
+        pix_net["Rede Banco Central / Pix"]:::external
+        cc_acquirer["Credenciadora de Cartões"]:::external
+        bank_boleto["Compensação Bancária"]:::external
+        notif_gateways["Gateways de Notificação<br/><i>(SMTP / SMS / Push)</i>"]:::external
+    end
 
-    Rel_D(customer, payflow, "Realiza pedidos e seleciona a estratégia de pagamento", "HTTPS / Web Interface")
-    Rel_D(admin, payflow, "Visualiza histórico de pedidos e logs de auditoria reativos", "HTTPS / Dashboard")
+    customer -->|"Realiza Pedidos & Escolhe Pagamento<br/>[HTTPS / Web Interface]"| payflow
+    admin -->|"Visualiza Histórico & Logs Reativos<br/>[HTTPS / Dashboard]"| payflow
 
-    Rel_D(payflow, pix_net, "Gera chave e consulta liquidação Pix", "API REST / Strategy Pattern")
-    Rel_D(payflow, cc_acquirer, "Solicita autorização e parcelamento de transação", "API REST / Strategy Pattern")
-    Rel_D(payflow, bank_boleto, "Emite título e registro de boleto bancário", "API REST / Strategy Pattern")
-    Rel_D(payflow, notif_gateways, "Despacha notificações pós-checkout", "SMTP/HTTPS / Factory Method & Observer")
+    payflow -->|"Gera Chave e Consulta Liquidação<br/>[API REST / Strategy Pattern]"| pix_net
+    payflow -->|"Solicita Autorização & Parcelamento<br/>[API REST / Strategy Pattern]"| cc_acquirer
+    payflow -->|"Emite Título e Registro de Boleto<br/>[API REST / Strategy Pattern]"| bank_boleto
+    payflow -->|"Despacha Notificações Pós-Checkout<br/>[Factory Method & Observer]"| notif_gateways
 ```
 
 ## Descrição dos Componentes e Atores

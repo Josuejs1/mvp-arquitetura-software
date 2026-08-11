@@ -3,28 +3,33 @@
 O Diagrama de Containers ilustra a arquitetura interna do **PayFlow MVP**, detalhando a divisão de responsabilidades entre a interface Web, a API de Apresentação, os Casos de Uso, os Design Patterns e o Repositório de Dados.
 
 ```mermaid
-C4Container
-    title Diagrama de Containers do Sistema - PayFlow MVP
+flowchart TD
+    classDef person fill:#084298,stroke:#052c65,color:#ffffff,stroke-width:2px;
+    classDef container fill:#0d6efd,stroke:#0a58ca,color:#ffffff,stroke-width:2px;
+    classDef core fill:#0b5ed7,stroke:#0a58ca,color:#ffffff,stroke-width:2px;
+    classDef repo fill:#198754,stroke:#146c43,color:#ffffff,stroke-width:2px;
 
-    Person(customer, "Cliente", "Interage com o dashboard de checkout.")
+    customer["👤 Cliente / Comprador<br/><i>(Interage com o dashboard de checkout)</i>"]:::person
 
-    Container_Boundary(payflow_boundary, "PayFlow MVP (Sistema de Checkout)") {
-        Container(web_ui, "Web Dashboard UI", "HTML5, CSS3 Glassmorphism, Vanilla JS", "Interface gráfica interativa onde o usuário escolhe produtos, seleciona o método de pagamento e visualiza os logs em tempo real.")
+    subgraph Boundary [" PayFlow MVP (Sistema de Checkout) "]
+        direction TD
         
-        Container(api_server, "Presentation Server (API REST)", "Express / Node.js", "Expõe endpoints REST (/api/checkout, /api/orders, /api/logs) e serve a aplicação frontend estática.")
+        web_ui["🖥️ Web Dashboard UI<br/><b>[HTML5 / CSS3 Glassmorphism / Vanilla JS]</b><br/><i>Interface gráfica interativa de checkout e logs em tempo real</i>"]:::container
+        
+        api_server["⚙️ Presentation Server (API REST)<br/><b>[Express / Node.js]</b><br/><i>Endpoints REST (/api/checkout, /api/orders, /api/logs)</i>"]:::container
+        
+        usecases["🧩 Use Cases Layer (Orquestrador)<br/><b>[CheckoutUseCase]</b><br/><i>Orquestra execuções de pagamentos e disparo reativo de eventos</i>"]:::core
+        
+        patterns["🧱 Design Patterns Layer<br/><b>[TypeScript Core]</b><br/><i>Implementações puras de Strategy, Factory Method e Observer</i>"]:::core
+        
+        repo["💾 In-Memory Repository<br/><b>[TypeScript Storage]</b><br/><i>Persistência em memória de pedidos, transações e logs imutáveis</i>"]:::repo
+    end
 
-        Container(usecases, "Use Cases Layer (Orquestrador)", "TypeScript Core", "CheckoutUseCase: Orquestra a execução das estratégias de pagamento e o disparo reativo dos eventos de pedido.")
-
-        Container(patterns, "Design Patterns Layer", "TypeScript Core", "Contém as implementações puras dos padrões Strategy (Pagamentos), Factory Method (Notificações) e Observer (Eventos).")
-
-        Container(repo, "In-Memory Repository", "TypeScript / Memory Storage", "Persistência em memória para pedidos, transações e logs imutáveis de auditoria.")
-    }
-
-    Rel_D(customer, web_ui, "Interage", "HTTP / Browser")
-    Rel_D(web_ui, api_server, "Envia requisição de checkout e busca logs", "JSON / REST API")
-    Rel_D(api_server, usecases, "Invoca o caso de uso", "Method Call")
-    Rel_D(usecases, patterns, "Executa estratégias e notifica observadores", "Inversão de Dependência")
-    Rel_D(usecases, repo, "Persiste estado e consulta pedidos", "Repository Interface")
+    customer -->|"1. Interage via Navegador<br/>[HTTP / Browser]"| web_ui
+    web_ui -->|"2. Envia Requisição de Checkout & Logs<br/>[JSON / REST API]"| api_server
+    api_server -->|"3. Invoca o Caso de Uso<br/>[CheckoutUseCase]"| usecases
+    usecases -->|"4. Executa Estratégias & Notifica Observers<br/>[Inversão de Dependência]"| patterns
+    usecases -->|"5. Persiste Estado & Consulta Pedidos<br/>[Repository Interface]"| repo
 ```
 
 ## Mapeamento de Camadas e Responsabilidades

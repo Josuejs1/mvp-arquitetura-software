@@ -43,30 +43,37 @@ O sistema adota estritamente a **Arquitetura em Camadas (Layered / Clean Archite
 Refletido em detalhes no arquivo de documentação [c4_context.md](file:///home/josue/Documentos/arquitetura_de_software/mvp/docs/c4_context.md).
 
 ```mermaid
-C4Context
-    title Contexto do Sistema - PayFlow MVP
-    Person(customer, "Cliente", "Efetua compras e seleciona método de pagamento.")
-    System(payflow, "PayFlow MVP", "Plataforma de Processamento de Checkout.")
-    System_Ext(gateways, "Sistemas Financeiros & Notificadores", "Pix, Cartão, Boleto, E-mail, SMS, Push.")
+flowchart TD
+    classDef person fill:#084298,stroke:#052c65,color:#ffffff,stroke-width:2px;
+    classDef system fill:#0d6efd,stroke:#0a58ca,color:#ffffff,stroke-width:2px;
+    classDef external fill:#495057,stroke:#343a40,color:#ffffff,stroke-width:2px;
 
-    Rel_D(customer, payflow, "Realiza Checkout", "HTTPS / Web Dashboard")
-    Rel_D(payflow, gateways, "Executa Pagamento & Notificações", "Strategy & Observer Patterns")
+    customer["👤 Cliente / Comprador<br/><i>Efetua compras e seleciona método de pagamento</i>"]:::person
+    payflow["⚡ PayFlow MVP System<br/><b>Plataforma de Processamento de Checkout</b>"]:::system
+    gateways["🔌 Sistemas Financeiros & Notificadores<br/><i>(Pix, Cartão, Boleto, E-mail, SMS, Push)</i>"]:::external
+
+    customer -->|"1. Realiza Checkout [HTTPS / Web Dashboard]"| payflow
+    payflow -->|"2. Executa Pagamento & Notificações [Strategy & Observer]"| gateways
 ```
 
 ### Nível 2: Diagrama de Container
 Refletido em detalhes no arquivo de documentação [c4_container.md](file:///home/josue/Documentos/arquitetura_de_software/mvp/docs/c4_container.md).
 
 ```mermaid
-C4Container
-    title Containers do PayFlow MVP
-    Container(web_ui, "Web Dashboard UI", "HTML/CSS/JS", "Interface do Usuário")
-    Container(api, "Presentation API Server", "Express / Node.js", "Endpoints REST")
-    Container(core, "Use Cases & Patterns Core", "TypeScript", "CheckoutUseCase & Design Patterns")
-    Container(repo, "In-Memory Repository", "TypeScript", "Armazenamento de Dados")
+flowchart TD
+    classDef person fill:#084298,stroke:#052c65,color:#ffffff,stroke-width:2px;
+    classDef container fill:#0d6efd,stroke:#0a58ca,color:#ffffff,stroke-width:2px;
+    classDef core fill:#0b5ed7,stroke:#0a58ca,color:#ffffff,stroke-width:2px;
+    classDef repo fill:#198754,stroke:#146c43,color:#ffffff,stroke-width:2px;
 
-    Rel_D(web_ui, api, "Envia Requisições", "JSON / HTTP")
-    Rel_D(api, core, "Invoca Casos de Uso", "TypeScript API")
-    Rel_D(core, repo, "Persiste Pedidos e Logs", "Interfaces")
+    web_ui["🖥️ Web Dashboard UI<br/><b>[HTML / CSS / JS]</b><br/><i>Interface do Usuário</i>"]:::container
+    api["⚙️ Presentation API Server<br/><b>[Express / Node.js]</b><br/><i>Endpoints REST</i>"]:::container
+    core["🧩 Use Cases & Patterns Core<br/><b>[TypeScript Core]</b><br/><i>CheckoutUseCase & 3 Design Patterns</i>"]:::core
+    repo["💾 In-Memory Repository<br/><b>[TypeScript Storage]</b><br/><i>Armazenamento de Pedidos e Logs</i>"]:::repo
+
+    web_ui -->|"1. Envia Requisições [JSON / HTTP]"| api
+    api -->|"2. Invoca Casos de Uso [TypeScript API]"| core
+    core -->|"3. Persiste Pedidos e Logs [OrderRepository]"| repo
 ```
 
 ---
