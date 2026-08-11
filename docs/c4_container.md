@@ -20,11 +20,11 @@ C4Container
         Container(repo, "In-Memory Repository", "TypeScript / Memory Storage", "Persistência em memória para pedidos, transações e logs imutáveis de auditoria.")
     }
 
-    Rel(customer, web_ui, "Interage", "HTTP / Browser")
-    Rel(web_ui, api_server, "Envia requisição de checkout e busca logs", "JSON / REST API")
-    Rel(api_server, usecases, "Invoca o caso de uso", "Method Call")
-    Rel(usecases, patterns, "Executa estratégias e notifica observadores", "Inversão de Dependência")
-    Rel(usecases, repo, "Persiste estado e consulta pedidos", "Repository Interface")
+    Rel_D(customer, web_ui, "Interage", "HTTP / Browser")
+    Rel_D(web_ui, api_server, "Envia requisição de checkout e busca logs", "JSON / REST API")
+    Rel_D(api_server, usecases, "Invoca o caso de uso", "Method Call")
+    Rel_D(usecases, patterns, "Executa estratégias e notifica observadores", "Inversão de Dependência")
+    Rel_D(usecases, repo, "Persiste estado e consulta pedidos", "Repository Interface")
 ```
 
 ## Mapeamento de Camadas e Responsabilidades

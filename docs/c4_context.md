@@ -16,13 +16,13 @@ C4Context
     System_Ext(bank_boleto, "Sistema de Compensação Bancária", "Emissor e validador de códigos de barras para boletos.")
     System_Ext(notif_gateways, "Gateways de Notificação (SMTP/SMS/Push)", "Provedores externos para envio de e-mails, SMS e notificações push.")
 
-    Rel(customer, payflow, "Realiza pedidos e seleciona a estratégia de pagamento", "HTTPS / Web Interface")
-    Rel(admin, payflow, "Visualiza histórico de pedidos e logs de auditoria reativos", "HTTPS / Dashboard")
+    Rel_D(customer, payflow, "Realiza pedidos e seleciona a estratégia de pagamento", "HTTPS / Web Interface")
+    Rel_D(admin, payflow, "Visualiza histórico de pedidos e logs de auditoria reativos", "HTTPS / Dashboard")
 
-    Rel(payflow, pix_net, "Gera chave e consulta liquidação Pix", "API REST / Strategy Pattern")
-    Rel(payflow, cc_acquirer, "Solicita autorização e parcelamento de transação", "API REST / Strategy Pattern")
-    Rel(payflow, bank_boleto, "Emite título e registro de boleto bancário", "API REST / Strategy Pattern")
-    Rel(payflow, notif_gateways, "Despacha notificações pós-checkout", "SMTP/HTTPS / Factory Method & Observer")
+    Rel_D(payflow, pix_net, "Gera chave e consulta liquidação Pix", "API REST / Strategy Pattern")
+    Rel_D(payflow, cc_acquirer, "Solicita autorização e parcelamento de transação", "API REST / Strategy Pattern")
+    Rel_D(payflow, bank_boleto, "Emite título e registro de boleto bancário", "API REST / Strategy Pattern")
+    Rel_D(payflow, notif_gateways, "Despacha notificações pós-checkout", "SMTP/HTTPS / Factory Method & Observer")
 ```
 
 ## Descrição dos Componentes e Atores

@@ -49,8 +49,8 @@ C4Context
     System(payflow, "PayFlow MVP", "Plataforma de Processamento de Checkout.")
     System_Ext(gateways, "Sistemas Financeiros & Notificadores", "Pix, Cartão, Boleto, E-mail, SMS, Push.")
 
-    Rel(customer, payflow, "Realiza Checkout", "HTTPS / Web Dashboard")
-    Rel(payflow, gateways, "Executa Pagamento & Notificações", "Strategy & Observer Patterns")
+    Rel_D(customer, payflow, "Realiza Checkout", "HTTPS / Web Dashboard")
+    Rel_D(payflow, gateways, "Executa Pagamento & Notificações", "Strategy & Observer Patterns")
 ```
 
 ### Nível 2: Diagrama de Container
@@ -64,9 +64,9 @@ C4Container
     Container(core, "Use Cases & Patterns Core", "TypeScript", "CheckoutUseCase & Design Patterns")
     Container(repo, "In-Memory Repository", "TypeScript", "Armazenamento de Dados")
 
-    Rel(web_ui, api, "Envia Requisições", "JSON / HTTP")
-    Rel(api, core, "Invoca Casos de Uso", "TypeScript API")
-    Rel(core, repo, "Persiste Pedidos e Logs", "Interfaces")
+    Rel_D(web_ui, api, "Envia Requisições", "JSON / HTTP")
+    Rel_D(api, core, "Invoca Casos de Uso", "TypeScript API")
+    Rel_D(core, repo, "Persiste Pedidos e Logs", "Interfaces")
 ```
 
 ---
