@@ -147,9 +147,29 @@ export class OrderSubject {
 
 ## 5. Demonstração de Execução e Logs Reais
 
-Durante a execução automatizada da suíte de testes e das chamadas da API REST, o sistema produziu os seguintes resultados em tempo real:
+Durante a execução da aplicação e da suíte de testes automatizados, o sistema produziu a interface interativa e as capturas de tela a seguir:
 
-### Exemplo de Resposta JSON da API (`POST /api/checkout` via Strategy Pix):
+### 5.1 Capturas de Tela da Aplicação Web em Execução
+
+#### 1. Dashboard Web Interativo (Visão Geral & Seleção de Produtos)
+Interface principal com Clean UI e Glassmorphism, exibindo badges das tecnologias e formulário de seleção do cliente e método de pagamento.
+![Dashboard Web Interativo](images/01-dashboard-checkout.png)
+
+#### 2. Processamento de Checkout via Pix (PixPaymentStrategy)
+Demonstração da estratégia Pix aplicada com sucesso: cálculo automático de 10% de desconto à vista, geração de QR Code Pix e logs reativos no terminal.
+![Checkout Pix Aprovado](images/02-checkout-pix-sucesso.png)
+
+#### 3. Processamento de Checkout via Cartão de Crédito (CreditCardPaymentStrategy)
+Demonstração do formulário dinâmico de parcelamento com cálculo de juros e autorização simulada de cartão.
+![Checkout Cartão Aprovado](images/03-checkout-cartao-sucesso.png)
+
+#### 4. Processamento de Checkout via Boleto Bancário (BoletoPaymentStrategy)
+Demonstração da estratégia de boleto com taxa de emissão de R$ 2,50, geração do código de barras e histórico completo de eventos no terminal.
+![Checkout Boleto Aprovado](images/04-checkout-boleto-sucesso.png)
+
+---
+
+### 5.2 Exemplo de Resposta JSON da API (`POST /api/checkout` via Strategy Pix):
 ```json
 {
   "success": true,
@@ -173,7 +193,7 @@ Durante a execução automatizada da suíte de testes e das chamadas da API REST
 }
 ```
 
-### Exemplo de Logs Emitidos pelos Observers:
+### 5.3 Exemplo de Logs Emitidos pelos Observers:
 ```text
 [Observer Pattern] Disparando evento "ORDER_CREATED" para 3 observadores...
 [AUDITORIA LOG] 2026-08-09T13:51:33.806Z | Evento: ORDER_CREATED | Pedido #ORD-1786283493806-805
